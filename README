@@ -1,0 +1,3 @@
+shared library to intercept network socket connections that a given program makes
+
+LD_PRELOAD=./intercept.so /bin/brave
