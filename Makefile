@@ -1,3 +1,4 @@
+CC=gcc
 BINS=intercept.so
 
 all: $(BINS)
