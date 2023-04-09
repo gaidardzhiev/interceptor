@@ -1,4 +1,5 @@
 CC=gcc
+CFLAGS=-g -Wall
 BINS=intercept.so
 
 all: $(BINS)
