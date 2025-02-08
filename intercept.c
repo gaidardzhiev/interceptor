@@ -14,7 +14,7 @@
 
 #define BUFFER_LEN 8192
 
-int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
+int i(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
 	int (*original_connect)(int,const struct sockaddr*, socklen_t) = NULL;
 	original_connect = dlsym(RTLD_NEXT, "connect");
 	struct sockaddr_in *myaddr = (struct sockaddr_in*)addr;
