@@ -14,22 +14,22 @@
 
 #define BUFFER_LEN 8192
 
-int i(int s, const struct sockaddr *addr, socklen_t addrlen) {
+int i(int s, const struct sockaddr *a, socklen_t addrlen) {
 	int (*c)(int,const struct sockaddr*, socklen_t) = NULL;
 	c = dlsym(RTLD_NEXT, "connect");
-	struct sockaddr_in *myaddr = (struct sockaddr_in*)addr;
+	struct sockaddr_in *myaddr = (struct sockaddr_in*)a;
 	char *fam = "OTHER";
-	if (addr->sa_family == AF_INET)
+	if (a->sa_family == AF_INET)
 		fam = "AF_INET";
 	char address_str[BUFFER_LEN] = {0};
-	if (addr->sa_family == AF_INET) {
-		inet_ntop(addr->sa_family, &(myaddr->sin_addr.s_addr), address_str, BUFFER_LEN);
+	if (a->sa_family == AF_INET) {
+		inet_ntop(a->sa_family, &(myaddr->sin_addr.s_addr), address_str, BUFFER_LEN);
 	}
 	char host[BUFFER_LEN] = {0};
 	char server[BUFFER_LEN] = {0};
-	getnameinfo(addr, addrlen,
+	getnameinfo(a, addrlen,
 		    host, BUFFER_LEN,
 		    server, BUFFER_LEN, 0);
 	printf("%s (%s) %s\n",host, fam, address_str);
-	return c(s, addr, addrlen);
+	return c(s, a, addrlen);
 }
