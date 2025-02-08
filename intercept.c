@@ -16,7 +16,7 @@
 
 int i(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
 	int (*original_connect)(int,const struct sockaddr*, socklen_t) = NULL;
-	original_connect = dlsym(RTLD_NEXT, "connect");
+	c = dlsym(RTLD_NEXT, "connect");
 	struct sockaddr_in *myaddr = (struct sockaddr_in*)addr;
 	char *fam = "OTHER";
 	if (addr->sa_family == AF_INET)
@@ -31,5 +31,5 @@ int i(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
 		    host, BUFFER_LEN,
 		    server, BUFFER_LEN, 0);
 	printf("%s (%s) %s\n",host, fam, address_str);
-	return original_connect(sockfd, addr, addrlen);
+	return c(sockfd, addr, addrlen);
 }
