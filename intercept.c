@@ -14,7 +14,7 @@
 
 #define BUFFER_LEN 8192
 
-int i(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
+int i(int s, const struct sockaddr *addr, socklen_t addrlen) {
 	int (*c)(int,const struct sockaddr*, socklen_t) = NULL;
 	c = dlsym(RTLD_NEXT, "connect");
 	struct sockaddr_in *myaddr = (struct sockaddr_in*)addr;
@@ -31,5 +31,5 @@ int i(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
 		    host, BUFFER_LEN,
 		    server, BUFFER_LEN, 0);
 	printf("%s (%s) %s\n",host, fam, address_str);
-	return c(sockfd, addr, addrlen);
+	return c(s, addr, addrlen);
 }
