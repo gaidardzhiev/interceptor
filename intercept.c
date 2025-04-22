@@ -1,4 +1,4 @@
-#define _GNU_SOURCE
+//#define _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,24 +12,22 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-#define BUFF 8192
+#define B 65536
 
-int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
-	int (*original_connect)(int,const struct sockaddr*, socklen_t) = NULL;
-	original_connect = dlsym(RTLD_NEXT, "connect");
-	struct sockaddr_in *myaddr = (struct sockaddr_in*)addr;
-	char *fam = "OTHER";
-	if (addr->sa_family == AF_INET)
-		fam = "AF_INET";
-	char address_str[BUFF] = {0};
-	if (addr->sa_family == AF_INET) {
-		inet_ntop(addr->sa_family, &(myaddr->sin_addr.s_addr), address_str, BUFF);
+int x(int y, const struct sockaddr *z, socklen_t d) {
+	int (*f)(int, const struct sockaddr*, socklen_t) = NULL;
+	f = dlsym(RTLD_NEXT, "connect");
+	struct sockaddr_in *j = (struct sockaddr_in*)z;
+	char *v = "OTHER";
+	if (z->sa_family == AF_INET)
+		v = "AF_INET";
+	char t[B] = {0};
+	if (z->sa_family == AF_INET) {
+		inet_ntop(z->sa_family, &(j->sin_addr.s_addr), t, B);
 	}
-	char host[BUFF] = {0};
-	char server[BUFF] = {0};
-	getnameinfo(addr, addrlen,
-		    host, BUFF,
-		    server, BUFF, 0);
-	printf("%s (%s) %s\n",host, fam, address_str);
-	return original_connect(sockfd, addr, addrlen);
+	char h[B] = {0};
+	char s[B] = {0};
+	getnameinfo(z, d, h, B, s, B, 0);
+	printf("%s (%s) %s\n", h, v, t);
+	return f(y, z, d);
 }
